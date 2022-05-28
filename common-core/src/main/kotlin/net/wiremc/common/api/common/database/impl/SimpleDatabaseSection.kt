@@ -1,5 +1,6 @@
 package net.wiremc.common.api.common.database.impl
 
+import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.database.IDatabaseEntry
 import net.wiremc.common.api.common.database.IDatabaseSection
 
@@ -34,7 +35,10 @@ class SimpleDatabaseSection: IDatabaseSection {
     }
 
     override fun columns(vararg value: String): IDatabaseSection {
-        TODO("Not yet implemented")
+        for (s in value) {
+            CoreAPI.getInstance().getDatabase().newColumn(table, s)
+        }
+        return this
     }
 
 }
