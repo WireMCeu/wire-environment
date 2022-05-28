@@ -1,9 +1,9 @@
-package net.wiremc.common.api.common.database.impl
+package net.wiremc.common.api.common.sql.impl
 
 import com.google.common.collect.Lists
 import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.console.MSG
-import net.wiremc.common.api.common.database.IDatabaseInterface
+import net.wiremc.common.api.common.sql.IDatabaseInterface
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet

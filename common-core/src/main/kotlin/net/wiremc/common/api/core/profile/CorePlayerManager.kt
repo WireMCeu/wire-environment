@@ -1,6 +1,7 @@
 package net.wiremc.common.api.core.profile
 
-import net.wiremc.common.api.common.database.IDatabaseEntry
+import net.wiremc.common.api.common.sql.DatabaseEntry
+import org.bukkit.entity.Player
 
 /**
  *
@@ -13,6 +14,6 @@ import net.wiremc.common.api.common.database.IDatabaseEntry
 
 interface CorePlayerManager {
 
-    fun getEntry(corePlayer: CorePlayer): IDatabaseEntry
+    fun getEntry(player: Player): DatabaseEntry?
 
 }

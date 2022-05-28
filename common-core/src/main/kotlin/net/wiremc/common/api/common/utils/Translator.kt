@@ -1,6 +1,6 @@
 @file:Suppress("PrivatePropertyName", "FunctionName", "KDocUnresolvedReference")
 
-package net.wiremc.common.api.common
+package net.wiremc.common.api.common.utils
 
 import java.io.IOException
 import java.io.InputStreamReader

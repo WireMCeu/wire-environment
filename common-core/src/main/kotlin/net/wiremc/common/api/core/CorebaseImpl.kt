@@ -9,17 +9,20 @@ import net.wiremc.common.api.common.event.impl.EventRegistryImpl
 import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.console.ConsoleProfile
 import net.wiremc.common.api.common.console.SimpleConsoleProfile
-import net.wiremc.common.api.common.database.IDatabaseInterface
-import net.wiremc.common.api.common.database.IDatabaseSection
-import net.wiremc.common.api.common.database.impl.SimpleDatabaseInterface
+import net.wiremc.common.api.common.sql.IDatabaseInterface
+import net.wiremc.common.api.common.sql.impl.SimpleDatabaseInterface
 import net.wiremc.common.api.common.modules.CoreModuleLoader
 import net.wiremc.common.api.common.modules.CoreModuleRegistry
 import net.wiremc.common.api.common.modules.impl.DefaultCoreModuleLoaderImpl
 import net.wiremc.common.api.common.modules.impl.DefaultCoreModuleRegistry
-import net.wiremc.common.api.common.modules.impl.DefaultRawCoreModule
+import net.wiremc.common.api.common.sql.DatabaseUnit
+import net.wiremc.common.api.core.profile.CorePlayerManager
+import net.wiremc.common.api.core.profile.impl.SimpleCorePlayerManager
 import net.wiremc.common.api.spigot.protocol.ProtocolManager
 import net.wiremc.common.api.spigot.protocol.impl.ProtocolManagerImpl
 import org.bukkit.plugin.Plugin
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  *
@@ -40,9 +43,16 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
     private val databaseInterface: IDatabaseInterface = SimpleDatabaseInterface("core_db")
     private val coreModuleRegistry: CoreModuleRegistry = DefaultCoreModuleRegistry()
     private val coreModuleLoader: CoreModuleLoader = DefaultCoreModuleLoaderImpl()
-    private val sqlCorePlayerSection: IDatabaseSection = IDatabaseSection.section()
+    private val corePlayerUnit: DatabaseUnit = DatabaseUnit.unit()
+    private val corePlayerManager: CorePlayerManager = SimpleCorePlayerManager()
+    private val completableFutureExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
     init {
+        this.corePlayerUnit
+            .table("core_player")
+            .defaults(listOf("").toMutableList())
+            .columns()
+            .dispatchUnit()
         this.coreModuleLoader
             .loadModules(this.coreModuleLoader
                 .getRegisteredModules())
@@ -64,6 +74,10 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
 
     override fun getCoreModuleRegistry(): CoreModuleRegistry = this.coreModuleRegistry
 
-    override fun getCorePlayerSQLSection(): IDatabaseSection = this.sqlCorePlayerSection
+    override fun getCorePlayerUnit(): DatabaseUnit = this.corePlayerUnit
+
+    override fun getCorePlayerManager(): CorePlayerManager = this.corePlayerManager
+
+    override fun getCompletableFutureExecutor(): ExecutorService = this.completableFutureExecutor
 
 }

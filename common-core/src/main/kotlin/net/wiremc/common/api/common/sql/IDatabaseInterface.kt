@@ -1,4 +1,4 @@
-package net.wiremc.common.api.common.database
+package net.wiremc.common.api.common.sql
 
 /**
  *
