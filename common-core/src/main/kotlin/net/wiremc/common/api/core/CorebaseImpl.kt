@@ -10,6 +10,7 @@ import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.console.ConsoleProfile
 import net.wiremc.common.api.common.console.SimpleConsoleProfile
 import net.wiremc.common.api.common.database.IDatabaseInterface
+import net.wiremc.common.api.common.database.IDatabaseSection
 import net.wiremc.common.api.common.database.impl.SimpleDatabaseInterface
 import net.wiremc.common.api.common.modules.CoreModuleLoader
 import net.wiremc.common.api.common.modules.CoreModuleRegistry
@@ -39,6 +40,7 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
     private val databaseInterface: IDatabaseInterface = SimpleDatabaseInterface("core_db")
     private val coreModuleRegistry: CoreModuleRegistry = DefaultCoreModuleRegistry()
     private val coreModuleLoader: CoreModuleLoader = DefaultCoreModuleLoaderImpl()
+    private val sqlCorePlayerSection: IDatabaseSection = IDatabaseSection.section()
 
     init {
         this.coreModuleLoader
@@ -61,5 +63,7 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
     override fun getCoreConsole(): ConsoleProfile = this.consoleProfile
 
     override fun getCoreModuleRegistry(): CoreModuleRegistry = this.coreModuleRegistry
+
+    override fun getCorePlayerSQLSection(): IDatabaseSection = this.sqlCorePlayerSection
 
 }

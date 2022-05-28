@@ -12,6 +12,11 @@
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="gradle-release-local" />
+      <option name="name" value="gradle-release-local" />
+      <option name="url" value="https://repo.thesimplecloud.eu/artifactory/list/gradle-release-local/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />

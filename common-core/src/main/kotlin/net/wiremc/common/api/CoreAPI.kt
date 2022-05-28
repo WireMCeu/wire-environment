@@ -5,6 +5,7 @@ import eu.wiremc.event.EventRegistry
 import eu.wiremc.event.IEventRegistryFactory
 import net.wiremc.common.api.common.console.ConsoleProfile
 import net.wiremc.common.api.common.database.IDatabaseInterface
+import net.wiremc.common.api.common.database.IDatabaseSection
 import net.wiremc.common.api.common.modules.CoreModuleRegistry
 import net.wiremc.common.api.spigot.protocol.ProtocolManager
 import org.bukkit.plugin.Plugin
@@ -48,5 +49,7 @@ interface CoreAPI {
     fun getCoreConsole(): ConsoleProfile
 
     fun getCoreModuleRegistry(): CoreModuleRegistry
+
+    fun getCorePlayerSQLSection(): IDatabaseSection
 
 }
