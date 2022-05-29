@@ -2,10 +2,12 @@ package net.wiremc.common.api.common.modules.impl
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import eu.wiremc.spigot.protocol.reflections.ReflectionUtils
 import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.console.MSG
+import net.wiremc.common.api.common.context.ContextCoreConfigurationImpl
 import net.wiremc.common.api.common.modules.Construction
-import net.wiremc.common.api.common.modules.CoreModule
+import net.wiremc.common.api.common.modules.CommonModule
 import net.wiremc.common.api.common.modules.CoreModuleLoader
 import net.wiremc.common.api.common.modules.RawModule
 import net.wiremc.common.api.exceptions.common.EmptyModuleException
@@ -49,7 +51,8 @@ class DefaultCoreModuleLoaderImpl: CoreModuleLoader {
                     val jarFile = JarFile(file)
                     val entry = jarFile.getEntry("construction.json")
                     val inputScanner: Scanner = Scanner(jarFile.getInputStream(entry))
-                    val construction: Construction = vGson.fromJson(buildRaw(inputScanner), Construction::class.java)
+                    val construction: Construction = vGson
+                        .fromJson(buildRaw(inputScanner), Construction::class.java)
                     listOf.add(DefaultRawCoreModule(construction, file))
                 } catch (ex: EmptyModuleException) {
                     ex.printStackTrace()
@@ -62,15 +65,34 @@ class DefaultCoreModuleLoaderImpl: CoreModuleLoader {
     override fun loadModules(collection: Collection<RawModule>) {
         for (rawModule in collection) {
             try {
-                val child = URLClassLoader(arrayOf<URL>(rawModule.source().toURI().toURL()),
+                val child = URLClassLoader(arrayOf<URL>(rawModule
+                    .source()
+                    .toURI()
+                    .toURL()),
                     this.javaClass.classLoader
                 )
                 Class.forName(rawModule.construction().main, true, child)
                 val c = Class.forName(rawModule.construction().main, true, child)
-                val module: CoreModule = c.getConstructor().newInstance() as CoreModule
-                module.onHandleEnable(CoreAPI.getInstance().getPlugin())
+                val module: CommonModule = c
+                    .getConstructor()
+                    .newInstance() as CommonModule
+                val fConfiguration = ContextCoreConfigurationImpl(rawModule)
+                ReflectionUtils
+                    .invoke(module,
+                        "onHandleRegister0",
+                        fConfiguration,
+                        rawModule)
+                module.onHandleEnable(CoreAPI
+                    .getInstance()
+                    .getPlugin(), fConfiguration)
                 CoreAPI.getInstance().getCoreModuleRegistry().insert(rawModule, module)
-                CoreAPI.getInstance().getCoreConsole().write("The module ${rawModule.construction().name} was loaded §asuccessfully")
+                CoreAPI.getInstance()
+                    .getCoreConsole()
+                    .write("The module ${rawModule
+                        .construction()
+                        .name} was loaded §asuccessfully §7by §a" + rawModule
+                        .construction()
+                        .author)
             } catch (ex: EmptyModuleException) {
                 CoreAPI.getInstance().getCoreConsole().write("I have an error loading a module", MSG.ERROR)
                 ex.printStackTrace()

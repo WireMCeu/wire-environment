@@ -19,6 +19,7 @@ import net.wiremc.common.api.common.modules.CoreModuleRegistry
 import net.wiremc.common.api.common.modules.impl.DefaultCoreModuleLoaderImpl
 import net.wiremc.common.api.common.modules.impl.DefaultCoreModuleRegistry
 import net.wiremc.common.api.common.sql.DatabaseUnit
+import net.wiremc.common.api.core.profile.ColorType
 import net.wiremc.common.api.core.profile.CorePlayerManager
 import net.wiremc.common.api.core.profile.impl.SimpleCorePlayerManager
 import net.wiremc.common.api.internal.InternalCoreHandler
@@ -63,12 +64,20 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
             .columns()
             .dispatchUnit()
         this.corePlayerUnit.onInsertNew() {
-            it.insert("lang", LanguageType.ENGLISH.name)
+            it
+                .insert("lang", LanguageType.ENGLISH.name)
+                .insert("mColor", ColorType.YELLOW.name)
+                .insert("sColor", ColorType.ORANGE.name)
+                .insert("state", "nothing")
+                .insert("rank", "default")
+                .insert("coins", "0")
+                .insert("tokens", "0")
         }
         this.coreModuleLoader
             .loadModules(this.coreModuleLoader
                 .getRegisteredModules())
         InternalCoreHandler(this)
+        CoreAPI.getInstance().getCoreConsole().write( "${this.coreModuleRegistry.size()} modules were successfully loaded!")
         CoreAPI.getInstance().getCoreConsole().write("The core loaded §asuccessfully")
     }
 

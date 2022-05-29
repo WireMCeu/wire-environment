@@ -1,6 +1,6 @@
 package net.wiremc.common.api.common.modules.impl
 
-import net.wiremc.common.api.common.modules.CoreModule
+import net.wiremc.common.api.common.modules.CommonModule
 import net.wiremc.common.api.common.modules.CoreModuleRegistry
 import net.wiremc.common.api.common.modules.RawModule
 
@@ -15,15 +15,19 @@ import net.wiremc.common.api.common.modules.RawModule
 
 class DefaultCoreModuleRegistry: CoreModuleRegistry {
 
-    private val mapOf: MutableMap<RawModule, CoreModule> = mutableMapOf()
+    private val mapOf: MutableMap<RawModule, CommonModule> = mutableMapOf()
 
-    override fun insert(rawModule: RawModule, module: CoreModule): CoreModuleRegistry {
+    override fun insert(rawModule: RawModule, module: CommonModule): CoreModuleRegistry {
         this.mapOf[rawModule] = module
         return this
     }
 
-    override fun read(): Map<RawModule, CoreModule> {
+    override fun read(): Map<RawModule, CommonModule> {
         return this.mapOf
+    }
+
+    override fun size(): Int {
+        return this.mapOf.size
     }
 
 

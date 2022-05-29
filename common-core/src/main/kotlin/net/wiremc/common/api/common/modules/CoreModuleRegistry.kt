@@ -11,8 +11,10 @@ package net.wiremc.common.api.common.modules
 
 interface CoreModuleRegistry {
 
-    fun insert(rawModule: RawModule, module: CoreModule): CoreModuleRegistry
+    fun insert(rawModule: RawModule, module: CommonModule): CoreModuleRegistry
 
-    fun read(): Map<RawModule, CoreModule>
+    fun read(): Map<RawModule, CommonModule>
+
+    fun size(): Int
 
 }
