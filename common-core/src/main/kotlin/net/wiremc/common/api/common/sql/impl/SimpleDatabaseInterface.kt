@@ -19,17 +19,19 @@ import java.util.concurrent.CopyOnWriteArrayList
  *
  */
 
-class SimpleDatabaseInterface(private var database: String): IDatabaseInterface {
+class SimpleDatabaseInterface(private val coreAPI: CoreAPI): IDatabaseInterface {
 
     private lateinit var hostName: String
     private lateinit var port: String
     private lateinit var username: String
     private lateinit var password: String
+    private lateinit var database: String
 
     private var connected: Boolean = false
     private lateinit var connection: Connection
 
     override fun connect(database: String): IDatabaseInterface {
+        this.database = database
         connect0("127.0.0.1", "3306", "network", "Lighdo183", database)
         return this
     }
@@ -42,10 +44,11 @@ class SimpleDatabaseInterface(private var database: String): IDatabaseInterface 
         database: String,
     ): IDatabaseInterface {
         this.hostName = hostName
-        this.port = hostName
+        this.port = port
         this.username = username
         this.password = password
         this.database = database
+        bind0()
         return this
     }
 
@@ -54,13 +57,14 @@ class SimpleDatabaseInterface(private var database: String): IDatabaseInterface 
             false -> {
                 try {
                     this.connection = DriverManager.getConnection("jdbc:mysql://" + this.hostName + ":" + this.port + "/" + this.database + "?autoReconnect=true", this.username, this.password)
-                    CoreAPI.getInstance().getCoreConsole().write("A database connection could be set up", MSG.ERROR)
+                    coreAPI.getCoreConsole().write("A database connection could be set up", MSG.ERROR)
                 } catch (exception: SQLException) {
-                    CoreAPI.getInstance().getCoreConsole().write("An unknown error occurred while connecting to database", MSG.ERROR)
+                    exception.printStackTrace()
+                    coreAPI.getCoreConsole().write("An unknown error occurred while connecting to database", MSG.ERROR)
                 }
             }
             else -> {
-                CoreAPI.getInstance().getCoreConsole().write("This interface is already connected", MSG.ERROR)
+                coreAPI.getCoreConsole().write("This interface is already connected", MSG.ERROR)
             }
         }
     }

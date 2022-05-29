@@ -14,7 +14,7 @@ import net.wiremc.common.api.common.sql.DatabaseUnit
  *
  */
 
-class DatabaseUnitImpl: DatabaseUnit {
+class DatabaseUnitImpl(private val coreAPI: CoreAPI): DatabaseUnit {
 
     private val entryCluster: DatabaseEntryCluster = DatabaseEntryClusterImpl(this)
     lateinit var defaults: MutableList<String>
@@ -54,7 +54,8 @@ class DatabaseUnitImpl: DatabaseUnit {
     }
 
     override fun dispatchUnit(): DatabaseUnit {
-        CoreAPI.getInstance().getDatabase().newColumn(this.table, "core")
+        coreAPI.getDatabase().createTable(this.table)
+        coreAPI.getDatabase().newColumn(this.table, "core")
         return this
     }
 }

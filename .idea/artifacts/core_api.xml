@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="core-api">
+    <output-path>$USER_HOME$/Desktop/cloud/wire</output-path>
+    <root id="archive" name="core-api.jar">
+      <element id="module-output" name="common-core" />
+    </root>
+  </artifact>
+</component>

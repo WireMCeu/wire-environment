@@ -59,7 +59,7 @@ class DefaultCoreModuleLoaderImpl: CoreModuleLoader {
         return listOf
     }
 
-    fun loadModules(collection: Collection<RawModule>) {
+    override fun loadModules(collection: Collection<RawModule>) {
         for (rawModule in collection) {
             try {
                 val cl = URLClassLoader(arrayOf<URL>(rawModule.source().toURL()), ClassLoader.getSystemClassLoader())

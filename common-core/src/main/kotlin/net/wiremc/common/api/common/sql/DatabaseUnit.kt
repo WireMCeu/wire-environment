@@ -1,5 +1,6 @@
 package net.wiremc.common.api.common.sql
 
+import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.sql.impl.DatabaseUnitImpl
 
 /**
@@ -16,8 +17,8 @@ interface DatabaseUnit {
     companion object {
 
         @JvmStatic
-        fun unit(): DatabaseUnit {
-            return DatabaseUnitImpl()
+        fun unit(coreAPI: CoreAPI): DatabaseUnit {
+            return DatabaseUnitImpl(coreAPI)
         }
 
     }

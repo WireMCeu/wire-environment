@@ -21,6 +21,7 @@ import net.wiremc.common.api.core.profile.impl.SimpleCorePlayerManager
 import net.wiremc.common.api.spigot.protocol.ProtocolManager
 import net.wiremc.common.api.spigot.protocol.impl.ProtocolManagerImpl
 import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -40,10 +41,10 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
     private val mainEventRegistry: EventRegistry = EventRegistryImpl()
     private val protocolManager: ProtocolManager = ProtocolManagerImpl()
     private val consoleProfile: ConsoleProfile = SimpleConsoleProfile()
-    private val databaseInterface: IDatabaseInterface = SimpleDatabaseInterface("core_db")
+    private val databaseInterface: IDatabaseInterface = SimpleDatabaseInterface(this).connect("core_db")
     private val coreModuleRegistry: CoreModuleRegistry = DefaultCoreModuleRegistry()
     private val coreModuleLoader: CoreModuleLoader = DefaultCoreModuleLoaderImpl()
-    private val corePlayerUnit: DatabaseUnit = DatabaseUnit.unit()
+    private val corePlayerUnit: DatabaseUnit = DatabaseUnit.unit(coreAPI = this)
     private val corePlayerManager: CorePlayerManager = SimpleCorePlayerManager()
     private val completableFutureExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
