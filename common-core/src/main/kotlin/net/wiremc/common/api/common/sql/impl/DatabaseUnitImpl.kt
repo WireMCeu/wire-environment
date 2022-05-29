@@ -4,6 +4,7 @@ import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.sql.DatabaseEntry
 import net.wiremc.common.api.common.sql.DatabaseEntryCluster
 import net.wiremc.common.api.common.sql.DatabaseUnit
+import java.util.function.Consumer
 
 /**
  *
@@ -20,6 +21,7 @@ class DatabaseUnitImpl(private val coreAPI: CoreAPI): DatabaseUnit {
     lateinit var defaults: MutableList<String>
     private lateinit var columns: MutableList<String>
     private lateinit var table: String
+    private var handler: Consumer<DatabaseEntry>? = null
 
     override fun newEntry(value: String): DatabaseEntry {
         val response: DatabaseEntry = DatabaseEntryImpl(this, value)
@@ -57,4 +59,12 @@ class DatabaseUnitImpl(private val coreAPI: CoreAPI): DatabaseUnit {
         coreAPI.getDatabase().createTable(this.table, "core")
         return this
     }
+
+    override fun onInsertNew(handler: Consumer<DatabaseEntry>): DatabaseUnit {
+        this.handler = handler
+        return this
+    }
+
+    override fun handler(): Consumer<DatabaseEntry> = this.handler!!
+
 }

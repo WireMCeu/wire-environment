@@ -2,6 +2,7 @@ package net.wiremc.common.api.common.sql
 
 import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.sql.impl.DatabaseUnitImpl
+import java.util.function.Consumer
 
 /**
  *
@@ -36,5 +37,9 @@ interface DatabaseUnit {
     fun dispatchUnit(): DatabaseUnit
 
     fun table(): String
+
+    fun onInsertNew(handler: Consumer<DatabaseEntry>): DatabaseUnit
+
+    fun handler(): Consumer<DatabaseEntry>
 
 }

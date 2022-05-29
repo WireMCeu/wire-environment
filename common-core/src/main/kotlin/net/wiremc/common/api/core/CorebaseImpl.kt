@@ -7,6 +7,7 @@ import eu.wiremc.event.IEventRegistryFactory
 import eu.wiremc.event.impl.EventRegistryFactoryImpl
 import net.wiremc.common.api.common.event.impl.EventRegistryImpl
 import net.wiremc.common.api.CoreAPI
+import net.wiremc.common.api.common.LanguageType
 import net.wiremc.common.api.common.console.ConsoleProfile
 import net.wiremc.common.api.common.console.SimpleConsoleProfile
 import net.wiremc.common.api.common.sql.IDatabaseInterface
@@ -37,6 +38,10 @@ import java.util.concurrent.Executors
 
 class CorebaseImpl(private val plugin: Plugin): CoreAPI {
 
+    init {
+        CoreAPI.instance(this)
+    }
+
     private val gson: Gson = GsonBuilder().create()
     private val eventFactory: IEventRegistryFactory = EventRegistryFactoryImpl()
     private val mainEventRegistry: EventRegistry = EventRegistryImpl()
@@ -55,6 +60,9 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
             .defaults(listOf("").toMutableList())
             .columns()
             .dispatchUnit()
+        this.corePlayerUnit.onInsertNew() {
+            it.insert("lang", LanguageType.ENGLISH.name)
+        }
         this.coreModuleLoader
             .loadModules(this.coreModuleLoader
                 .getRegisteredModules())

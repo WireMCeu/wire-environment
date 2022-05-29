@@ -1,5 +1,6 @@
 package net.wiremc.common.api.common.sql.impl
 
+import eu.thesimplecloud.api.CloudAPI
 import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.sql.DatabaseEntry
 import net.wiremc.common.api.common.sql.DatabaseUnit
@@ -18,8 +19,18 @@ class DatabaseEntryImpl(private val unit: DatabaseUnitImpl,private val str: Stri
 
     val hashed: MutableMap<String, Any> = mutableMapOf()
     private var defaults: MutableList<String> = unit.defaults
+    private var firstInsert = false
 
     init {
+        if (!CoreAPI.getInstance()
+                .getDatabase()
+                .existsInTable(this.unit.table(), "core", this.str)) {
+            CoreAPI.getInstance()
+                .getDatabase()
+                .addMoreInTable(this.unit.table(), listOf("core"), listOf(str))
+            this.firstInsert = true
+            this.unit.handler().accept(this)
+        }
     }
 
     override fun insert(key: String, value: String): DatabaseEntry {

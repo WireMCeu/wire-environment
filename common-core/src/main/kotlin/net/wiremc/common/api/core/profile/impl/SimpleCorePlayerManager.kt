@@ -4,6 +4,7 @@ import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.sql.DatabaseEntry
 import net.wiremc.common.api.core.profile.CorePlayer
 import net.wiremc.common.api.core.profile.CorePlayerManager
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import java.util.Arrays
 
@@ -18,18 +19,24 @@ import java.util.Arrays
 
 class SimpleCorePlayerManager: CorePlayerManager {
 
-    private val registry: MutableMap<String, DatabaseEntry> = mutableMapOf()
+    private val registry: MutableMap<String, CorePlayer> = mutableMapOf()
 
     override fun getEntry(player: Player): DatabaseEntry? {
-        return this.registry[player.uniqueId.toString()]
+        return this.registry[player.uniqueId.toString()]!!.sqlEntry()
     }
 
     override fun register(player: Player): CorePlayer {
-        this.registry[player.uniqueId.toString()] = CoreAPI
+        val core: CorePlayer = CorePlayerImpl(player)
+        CoreAPI
             .getInstance()
             .getCorePlayerUnit()
             .newEntry(player.uniqueId.toString())
-        return player as CorePlayer
+        this.registry[player.uniqueId.toString()] = core
+        return core
+    }
+
+    override fun getCorePlayer(player: Player): CorePlayer {
+        return this.registry[player.uniqueId.toString()]!!
     }
 
 }

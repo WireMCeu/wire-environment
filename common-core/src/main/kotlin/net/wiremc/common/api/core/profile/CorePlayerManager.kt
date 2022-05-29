@@ -1,6 +1,7 @@
 package net.wiremc.common.api.core.profile
 
 import net.wiremc.common.api.common.sql.DatabaseEntry
+import org.apache.logging.log4j.core.Core
 import org.bukkit.entity.Player
 
 /**
@@ -16,6 +17,8 @@ interface CorePlayerManager {
 
     fun getEntry(player: Player): DatabaseEntry?
 
-    fun register(player: Player): CorePlayer 
+    fun register(player: Player): CorePlayer
+
+    fun getCorePlayer(player: Player): CorePlayer
 
 }

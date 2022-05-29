@@ -19,11 +19,13 @@ import java.util.Objects;
  * @author Generix030
  */
 
-public interface CorePlayer extends Player {
+public interface CorePlayer {
 
     default DatabaseEntry sqlEntry() {
-        return CoreAPI.getInstance().getCorePlayerManager().getEntry(this);
+        return CoreAPI.getInstance().getCorePlayerManager().getEntry(this.craftPlayer());
     }
+
+    Player craftPlayer();
 
     default CorePlayer connect(String name) {
         this.cloud().connect(Objects.requireNonNull(CloudAPI.getInstance()
@@ -33,7 +35,7 @@ public interface CorePlayer extends Player {
     }
 
     default CorePlayer dispatch(Sound sound) {
-        this.playSound(this.getLocation(), sound, 3, 2);
+        this.craftPlayer().playSound(this.craftPlayer().getLocation(), sound, 3, 2);
         return this;
     }
 
@@ -44,10 +46,10 @@ public interface CorePlayer extends Player {
                     .sqlEntry()
                     .receive("lang")
                     .fromHashed());
-            this.sendMessage(Objects.requireNonNull(Translator.Companion
+            this.craftPlayer().sendMessage(Objects.requireNonNull(Translator.Companion
                     .translate("de", languageType.toString(), msg)));
         } else {
-            this.sendMessage(msg);
+            this.craftPlayer().sendMessage(msg);
         }
         return this;
     }
@@ -58,7 +60,7 @@ public interface CorePlayer extends Player {
                 .sqlEntry()
                 .receive("lang")
                 .fromHashed());
-        this.sendMessage(Objects.requireNonNull(Translator.Companion
+        this.craftPlayer().sendMessage(Objects.requireNonNull(Translator.Companion
                 .translate("de", languageType.toString(), msg)));
         return this;
     }
@@ -68,6 +70,7 @@ public interface CorePlayer extends Player {
                 .getInstance()
                 .getCloudPlayerManager()
                 .getCachedCloudPlayer(this
+                        .craftPlayer()
                         .getUniqueId());
     }
 

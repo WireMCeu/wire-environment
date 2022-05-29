@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin
 class Bootstrap: JavaPlugin() {
 
     override fun onEnable() {
-        CoreAPI.Companion.instance(CorebaseImpl(this))
+        CorebaseImpl(this)
     }
 
     override fun onDisable() {
