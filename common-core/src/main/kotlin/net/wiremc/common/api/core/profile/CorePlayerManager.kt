@@ -16,4 +16,6 @@ interface CorePlayerManager {
 
     fun getEntry(player: Player): DatabaseEntry?
 
+    fun register(player: Player): CorePlayer 
+
 }

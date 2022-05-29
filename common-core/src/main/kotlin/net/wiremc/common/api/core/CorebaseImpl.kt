@@ -18,6 +18,7 @@ import net.wiremc.common.api.common.modules.impl.DefaultCoreModuleRegistry
 import net.wiremc.common.api.common.sql.DatabaseUnit
 import net.wiremc.common.api.core.profile.CorePlayerManager
 import net.wiremc.common.api.core.profile.impl.SimpleCorePlayerManager
+import net.wiremc.common.api.internal.InternalCoreHandler
 import net.wiremc.common.api.spigot.protocol.ProtocolManager
 import net.wiremc.common.api.spigot.protocol.impl.ProtocolManagerImpl
 import org.bukkit.plugin.Plugin
@@ -57,6 +58,7 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
         this.coreModuleLoader
             .loadModules(this.coreModuleLoader
                 .getRegisteredModules())
+        InternalCoreHandler(this)
     }
 
     override fun getPlugin(): Plugin = this.plugin

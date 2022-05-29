@@ -54,8 +54,7 @@ class DatabaseUnitImpl(private val coreAPI: CoreAPI): DatabaseUnit {
     }
 
     override fun dispatchUnit(): DatabaseUnit {
-        coreAPI.getDatabase().createTable(this.table)
-        coreAPI.getDatabase().newColumn(this.table, "core")
+        coreAPI.getDatabase().createTable(this.table, "core")
         return this
     }
 }

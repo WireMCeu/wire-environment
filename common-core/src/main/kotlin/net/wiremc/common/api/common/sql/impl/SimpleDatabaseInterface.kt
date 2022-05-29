@@ -69,6 +69,16 @@ class SimpleDatabaseInterface(private val coreAPI: CoreAPI): IDatabaseInterface 
         }
     }
 
+    fun newTable(tableName: String) {
+        try {
+            val command = "CREATE TABLE IF NOT EXISTS $tableName"
+            val preparedStatement = this.connection.prepareStatement(command)
+            preparedStatement.execute()
+        } catch (ex: SQLException) {
+            ex.printStackTrace()
+        }
+    }
+
     override fun createTable(tableName: String, vararg entries: String) {
         val stringBuilder = StringBuilder()
         stringBuilder.append("CREATE TABLE IF NOT EXISTS `$tableName` (`")

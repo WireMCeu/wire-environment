@@ -24,7 +24,7 @@ class SimpleCorePlayerManager: CorePlayerManager {
         return this.registry[player.uniqueId.toString()]
     }
 
-    fun register(player: Player): CorePlayer {
+    override fun register(player: Player): CorePlayer {
         this.registry[player.uniqueId.toString()] = CoreAPI
             .getInstance()
             .getCorePlayerUnit()
