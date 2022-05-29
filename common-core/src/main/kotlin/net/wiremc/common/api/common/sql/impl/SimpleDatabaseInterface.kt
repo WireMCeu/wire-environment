@@ -57,7 +57,7 @@ class SimpleDatabaseInterface(private val coreAPI: CoreAPI): IDatabaseInterface 
             false -> {
                 try {
                     this.connection = DriverManager.getConnection("jdbc:mysql://" + this.hostName + ":" + this.port + "/" + this.database + "?autoReconnect=true", this.username, this.password)
-                    coreAPI.getCoreConsole().write("A database connection could be set up", MSG.ERROR)
+                    coreAPI.getCoreConsole().write("A database connection could be set up", MSG.INFO)
                 } catch (exception: SQLException) {
                     exception.printStackTrace()
                     coreAPI.getCoreConsole().write("An unknown error occurred while connecting to database", MSG.ERROR)

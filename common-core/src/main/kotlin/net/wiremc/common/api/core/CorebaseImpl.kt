@@ -2,6 +2,7 @@ package net.wiremc.common.api.core
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import eu.thesimplecloud.api.CloudAPI
 import eu.wiremc.event.EventRegistry
 import eu.wiremc.event.IEventRegistryFactory
 import eu.wiremc.event.impl.EventRegistryFactoryImpl
@@ -10,6 +11,7 @@ import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.LanguageType
 import net.wiremc.common.api.common.console.ConsoleProfile
 import net.wiremc.common.api.common.console.SimpleConsoleProfile
+import net.wiremc.common.api.common.modules.Construction
 import net.wiremc.common.api.common.sql.IDatabaseInterface
 import net.wiremc.common.api.common.sql.impl.SimpleDatabaseInterface
 import net.wiremc.common.api.common.modules.CoreModuleLoader
@@ -67,6 +69,7 @@ class CorebaseImpl(private val plugin: Plugin): CoreAPI {
             .loadModules(this.coreModuleLoader
                 .getRegisteredModules())
         InternalCoreHandler(this)
+        CoreAPI.getInstance().getCoreConsole().write("The core loaded §asuccessfully")
     }
 
     override fun getPlugin(): Plugin = this.plugin

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/common-core/common-core.iml" filepath="$PROJECT_DIR$/common-core/common-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-lobby/module-lobby.iml" filepath="$PROJECT_DIR$/module-lobby/module-lobby.iml" />
     </modules>
   </component>
 </project>

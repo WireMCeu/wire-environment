@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="module-lobby">
+    <output-path>$USER_HOME$/Desktop/cloud/wire</output-path>
+    <root id="archive" name="module-lobby.jar">
+      <element id="module-output" name="module-lobby" />
+    </root>
+  </artifact>
+</component>

@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/common-core/pom.xml" />
+        <option value="$PROJECT_DIR$/module-lobby/pom.xml" />
       </list>
     </option>
   </component>
