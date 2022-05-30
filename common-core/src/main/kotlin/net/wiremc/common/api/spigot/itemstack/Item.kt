@@ -2,6 +2,7 @@ package net.wiremc.common.api.spigot.itemstack
 
 import eu.wiremc.spigot.itemstack.ItemEventType
 import net.wiremc.common.api.spigot.itemstack.impl.SimpleItem
+import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
@@ -49,6 +50,8 @@ interface Item {
     fun deserialize(d: String): Item
 
     fun uuid(): UUID
+
+    fun material(mat: Material): Item
 
     fun toItem(): org.bukkit.entity.Item
 

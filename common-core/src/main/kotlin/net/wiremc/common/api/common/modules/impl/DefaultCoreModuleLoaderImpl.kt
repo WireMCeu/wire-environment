@@ -77,11 +77,9 @@ class DefaultCoreModuleLoaderImpl: CoreModuleLoader {
                     .getConstructor()
                     .newInstance() as CommonModule
                 val fConfiguration = ContextCoreConfigurationImpl(rawModule)
-                ReflectionUtils
-                    .invoke(module,
-                        "onHandleRegister0",
-                        fConfiguration,
-                        rawModule)
+                module.onHandleRegister0(
+                    fConfiguration,
+                    rawModule)
                 module.onHandleEnable(CoreAPI
                     .getInstance()
                     .getPlugin(), fConfiguration)

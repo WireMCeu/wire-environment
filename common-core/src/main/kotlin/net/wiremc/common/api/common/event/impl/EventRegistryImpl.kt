@@ -28,7 +28,7 @@ class EventRegistryImpl: EventRegistry {
         return this
     }
 
-    override fun <T : Event> subscribe(clazz: Class<T>, action: Consumer<T>, priority: EventPriority): EventRegistry {
+    override fun <T : Event> subscribe(priority: EventPriority, clazz: Class<T>, action: Consumer<T>): EventRegistry {
         val listener: Listener = object : Listener {}
         CoreAPI.getInstance().getPlugin().server.pluginManager.registerEvent(clazz, listener, priority,
             { _: Listener?, e: Event ->

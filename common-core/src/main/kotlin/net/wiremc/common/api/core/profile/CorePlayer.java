@@ -28,7 +28,14 @@ public interface CorePlayer {
     Player craftPlayer();
 
     default String prefix() {
-        return "§8⋆ §e§lWire§6§lMC §8┃ §7";
+        return "§8⋆ " + ColorType.valueOf(this
+                .sqlEntry()
+                .receive("mColor")
+                .fromHashed()) + "§lWire" + ColorType
+                .valueOf(this
+                        .sqlEntry()
+                        .receive("sColor")
+                .fromHashed()) + "§lMC §8┃ §7";
     }
 
     default CorePlayer connect(String name) {
@@ -46,26 +53,16 @@ public interface CorePlayer {
     @SneakyThrows
     default CorePlayer dispatch(String msg, boolean translation) {
         if (translation) {
-            LanguageType languageType = LanguageType.valueOf(this
-                    .sqlEntry()
-                    .receive("lang")
-                    .fromHashed());
-            this.craftPlayer().sendMessage(Objects.requireNonNull(Translator.Companion
-                    .translate("de", languageType.toString(), msg)));
+            this.craftPlayer().sendMessage(this.prefix() + this.output(msg));
         } else {
-            this.craftPlayer().sendMessage(msg);
+            this.craftPlayer().sendMessage(this.prefix() + this.output(msg, true));
         }
         return this;
     }
 
     @SneakyThrows
     default CorePlayer dispatch(String msg) {
-        LanguageType languageType = LanguageType.valueOf(this
-                .sqlEntry()
-                .receive("lang")
-                .fromHashed());
-        this.craftPlayer().sendMessage(Objects.requireNonNull(Translator.Companion
-                .translate("de", languageType.toString(), msg)));
+        this.craftPlayer().sendMessage(this.prefix() + this.output(msg));
         return this;
     }
 
@@ -76,6 +73,62 @@ public interface CorePlayer {
                 .getCachedCloudPlayer(this
                         .craftPlayer()
                         .getUniqueId());
+    }
+
+    @SneakyThrows
+    default String output(String msg) {
+        return Translator
+                .Companion
+                .translate(
+                        "de",
+                        this.sqlEntry()
+                                .receive("lang")
+                                .fromHashed(), msg.replace("&", "§")
+                                .replace("§e", ColorType.valueOf(this
+                                                .sqlEntry()
+                                                .receive("mColor")
+                                                .fromHashed())
+                                        .getColor())
+                                .replace("§6", ColorType.valueOf(this
+                                                .sqlEntry()
+                                                .receive("sColor")
+                                                .fromHashed())
+                                        .getColor()));
+    }
+
+    @SneakyThrows
+    default String output(String msg, boolean ignoreTranslation) {
+        if (!ignoreTranslation) {
+            return Translator
+                    .Companion
+                    .translate(
+                            "de",
+                            this.sqlEntry()
+                                    .receive("lang")
+                                    .fromHashed(), msg.replace("&", "§")
+                    .replace("§e", ColorType.valueOf(this
+                                    .sqlEntry()
+                                    .receive("mColor")
+                                    .fromHashed())
+                            .getColor())
+                    .replace("§6", ColorType.valueOf(this
+                                    .sqlEntry()
+                                    .receive("sColor")
+                                    .fromHashed())
+                            .getColor()));
+        }
+        return  msg
+                .replace("&", "§")
+                .replace("§e", ColorType.valueOf(this
+                        .sqlEntry()
+                        .receive("mColor")
+                        .fromHashed())
+                        .getColor())
+                .replace("§6", ColorType.valueOf(this
+                        .sqlEntry()
+                        .receive("sColor")
+                        .fromHashed())
+                        .getColor());
     }
 
 }

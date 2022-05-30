@@ -63,4 +63,8 @@ class DatabaseEntryImpl(private val unit: DatabaseUnitImpl,private val str: Stri
     override fun entry(): String {
         return this.str
     }
+
+    override fun firstInsert(): Boolean {
+        return this.firstInsert
+    }
 }

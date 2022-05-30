@@ -29,4 +29,11 @@ class DatabaseEntryClusterImpl(private val unit: DatabaseUnit): DatabaseEntryClu
         this.listOf.add(entry)
     }
 
+    override fun get(str: String): DatabaseEntry? {
+        for (entry in this.listOf) {
+            if (entry.entry() == str) return entry
+        }
+        return null
+    }
+
 }

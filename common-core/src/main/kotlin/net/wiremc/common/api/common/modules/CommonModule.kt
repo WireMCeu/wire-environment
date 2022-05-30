@@ -2,7 +2,10 @@
 
 package net.wiremc.common.api.common.modules
 
+import eu.wiremc.event.EventRegistry
+import net.wiremc.common.api.CoreAPI
 import net.wiremc.common.api.common.context.ContextCoreConfiguration
+import net.wiremc.common.api.common.event.impl.EventRegistryImpl
 import org.bukkit.plugin.Plugin
 
 /**
@@ -18,6 +21,7 @@ abstract class CommonModule {
 
     protected lateinit var configuration: ContextCoreConfiguration
     protected lateinit var rawModule: RawModule
+    private val eventRegistry: EventRegistry = CoreAPI.getInstance().getCoreEventRegistry()
 
     abstract fun onHandleEnable(plugin: Plugin, configuration: ContextCoreConfiguration)
 
@@ -27,9 +31,13 @@ abstract class CommonModule {
         this.configuration.load()
     }
 
-    private fun onHandleRegister0(configuration: ContextCoreConfiguration, rawModule: RawModule) {
+    fun onHandleRegister0(configuration: ContextCoreConfiguration, rawModule: RawModule) {
         this.configuration = configuration
         this.rawModule = rawModule
     }
+
+    fun getCoreConfiguration(): ContextCoreConfiguration = this.configuration
+
+    fun getEventRegistry(): EventRegistry = this.eventRegistry
 
 }

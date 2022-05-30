@@ -2,3 +2,4 @@ name: core-api
 version: 1.0
 main: net.wiremc.common.api.bootstrap.Bootstrap
 author: Generix030
+api-version: 1.13

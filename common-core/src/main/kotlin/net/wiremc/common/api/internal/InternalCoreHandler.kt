@@ -1,6 +1,8 @@
 package net.wiremc.common.api.internal
 
+import net.minecraft.server.v1_16_R3.Items.it
 import net.wiremc.common.api.CoreAPI
+import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.weather.WeatherChangeEvent
 
@@ -16,7 +18,7 @@ import org.bukkit.event.weather.WeatherChangeEvent
 final class InternalCoreHandler(coreAPI: CoreAPI) {
 
     init {
-        coreAPI.getCoreEventRegistry().subscribe(PlayerJoinEvent::class.java) {
+        coreAPI.getCoreEventRegistry().subscribe(EventPriority.LOWEST ,PlayerJoinEvent::class.java) {
             it.joinMessage = null
             coreAPI.getCorePlayerManager().register(player = it.player)
         }

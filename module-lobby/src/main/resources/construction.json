@@ -1,6 +1,6 @@
 {
 "name": "lobby-module",
 "version": "1_0",
-"main": "net.wiremc.Module",
+"main": "net.wiremc.WireMC",
 "author": "Generix030"
 }

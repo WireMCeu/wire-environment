@@ -21,4 +21,6 @@ interface DatabaseEntry {
 
     fun entry(): String
 
+    fun firstInsert(): Boolean
+
 }

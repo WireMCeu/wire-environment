@@ -17,6 +17,6 @@ interface EventRegistry {
 
     fun<T: Event> subscribe(clazz: Class<T>, action: Consumer<T>): EventRegistry
 
-    fun<T: Event> subscribe(clazz: Class<T>, action: Consumer<T>, priority: EventPriority): EventRegistry
+    fun<T: Event> subscribe(priority: EventPriority, clazz: Class<T>, action: Consumer<T>): EventRegistry
 
 }

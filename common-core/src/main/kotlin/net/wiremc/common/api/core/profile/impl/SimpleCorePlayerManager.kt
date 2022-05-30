@@ -22,17 +22,25 @@ class SimpleCorePlayerManager: CorePlayerManager {
     private val registry: MutableMap<String, CorePlayer> = mutableMapOf()
 
     override fun getEntry(player: Player): DatabaseEntry? {
-        return this.registry[player.uniqueId.toString()]!!.sqlEntry()
+        return CoreAPI
+            .getInstance()
+            .getCorePlayerUnit()
+            .entryCluster()
+            .get(player.uniqueId.toString())
     }
 
     override fun register(player: Player): CorePlayer {
-        val core: CorePlayer = CorePlayerImpl(player)
-        CoreAPI
-            .getInstance()
-            .getCorePlayerUnit()
-            .newEntry(player.uniqueId.toString())
-        this.registry[player.uniqueId.toString()] = core
-        return core
+        return if (!this.registry.containsKey(player.uniqueId.toString())) {
+            val core: CorePlayer = CorePlayerImpl(player)
+            CoreAPI
+                .getInstance()
+                .getCorePlayerUnit()
+                .newEntry(player.uniqueId.toString())
+            this.registry[player.uniqueId.toString()] = core
+            core
+        } else {
+            this.registry[player.uniqueId.toString()]!!
+        }
     }
 
     override fun getCorePlayer(player: Player): CorePlayer {

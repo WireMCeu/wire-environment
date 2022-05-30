@@ -125,11 +125,11 @@ class SimpleDatabaseInterface(private val coreAPI: CoreAPI): IDatabaseInterface 
     override fun getEntryFromTable(specificTable: String, filteredKey: String, filteredVal: String, neededVal: String?): String {
         val query = "SELECT * FROM $specificTable WHERE $filteredKey='$filteredVal'"
         val resultSet = getResult(query)
-        val list: CopyOnWriteArrayList<*> = Lists.newCopyOnWriteArrayList<Any>()
+        val list: CopyOnWriteArrayList<String> = Lists.newCopyOnWriteArrayList<String>()
 
         try {
             while (resultSet!!.next()) {
-                list.add(resultSet.getString(neededVal) as Nothing?)
+                list.add(resultSet.getString(neededVal))
             }
         } catch (var9: SQLException) {
             return ""

@@ -138,6 +138,11 @@ class SimpleItem: Item {
         return this.uid
     }
 
+    override fun material(mat: Material): Item {
+        this.itemData.material = mat
+        return this
+    }
+
     override fun toItem(): org.bukkit.entity.Item {
         TODO("Not yet implemented")
     }

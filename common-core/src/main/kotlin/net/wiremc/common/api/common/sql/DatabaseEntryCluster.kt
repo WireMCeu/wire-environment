@@ -17,4 +17,6 @@ interface DatabaseEntryCluster {
 
     fun register(entry: DatabaseEntry)
 
+    fun get(str: String): DatabaseEntry?
+
 }
