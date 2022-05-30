@@ -27,6 +27,10 @@ public interface CorePlayer {
 
     Player craftPlayer();
 
+    default String prefix() {
+        return "§8⋆ §e§lWire§6§lMC §8┃ §7";
+    }
+
     default CorePlayer connect(String name) {
         this.cloud().connect(Objects.requireNonNull(CloudAPI.getInstance()
                 .getCloudServiceManager()
